@@ -1,91 +1,114 @@
-# 직접 구현 작업 규칙
+# Deep Learning Study — RA Task
 
-이 폴더는 사용자가 직접 생각하고 수정하는 공간입니다. 완성된 정답 파일을 먼저
-복사하지 않습니다.
+모두를 위한 딥러닝의 TensorFlow 실습을 읽고, 같은 학습 원리를 PyTorch로 직접
+구현·학습·변형하는 공부용 저장소입니다.
 
-## Lab 하나를 공부하는 순서
-
-### 1. 강의와 수식
-
-아래 네 항목을 코드보다 먼저 적습니다.
-
-- 문제는 regression인가 classification인가?
-- 입력 `X`, 정답 `Y`, 파라미터 `W`, 출력의 shape는 무엇인가?
-- hypothesis 식은 무엇인가?
-- loss와 update 식은 무엇인가?
-
-### 2. TensorFlow 원본 읽기
-
-`tensorflow_original/`의 작업 파일에 다음 주석을 직접 답합니다.
-
-```python
-# STUDY: 이 Tensor의 shape는?
-# STUDY: 이 연산이 구현하는 수식은?
-# STUDY: 학습되는 파라미터는 무엇인가?
-# STUDY: 이 줄은 학습/평가 중 언제 필요한가?
-```
-
-TensorFlow 문법을 외우는 것보다 데이터와 gradient 흐름을 설명하는 것이 목표입니다.
-
-### 3. 직접 구현
-
-원본을 닫고 `pytorch/`에 같은 학습 알고리즘을 작성합니다. 처음에는 다음 구조만
-놓고 하나씩 채웁니다.
+완성된 코드를 모으는 것보다 다음 과정을 스스로 설명할 수 있는 것을 목표로 합니다.
 
 ```text
-data
-→ model
-→ forward
-→ loss
-→ zero_grad
-→ backward
-→ optimizer.step
-→ evaluation
+모델과 수식 이해
+→ TensorFlow 원본 코드 분석
+→ PyTorch 직접 구현
+→ 학습 및 결과 재현
+→ 한 변수만 변경하는 실험
+→ 정량·정성 결과 분석
+→ 보고서 작성
 ```
 
-완성 참고 구현은 직접 시도하고 막힌 지점을 기록한 뒤에만 확인합니다.
+## 과제 구현 목표
 
-### 4. Baseline 실행
+### 1. 딥러닝 기본기
 
-아래 항목을 `../report/EXPERIMENT_LOG.md`에 바로 기록합니다.
+- Tensor와 shape 이해
+- hypothesis, loss, gradient의 관계 설명
+- `backward()`를 통한 gradient 계산 이해
+- `optimizer.zero_grad() → backward() → optimizer.step()` 학습 과정 구현
+- train/test 분리와 일반화 성능 확인
+- activation, initialization, dropout의 효과 비교
 
-- 날짜와 코드 파일
-- seed, epoch, batch size, optimizer, learning rate
-- train/validation/test loss와 accuracy
-- 입력부터 출력까지 주요 shape
-- 실행 중 관찰한 현상
+### 2. Linear Regression
 
-### 5. Controlled experiment
+현재 진행 중인 첫 번째 과제입니다.
 
-한 실행에서는 변수 하나만 변경합니다.
+1. $\hat{y}=Wx+b$를 PyTorch Tensor로 구현
+2. Mean Squared Error 계산
+3. `backward()`와 SGD로 $W$, $b$ 학습
+4. 학습 후 $W\rightarrow1$, $b\rightarrow0$ 수렴 확인
+5. 여러 $W$에 대한 Cost Function 계산 및 시각화
+6. optimizer 없이 Gradient Descent update 식 직접 구현
+7. 수동 gradient와 PyTorch autograd gradient 비교
+8. learning rate `0.1`, `0.01`, `0.001`의 수렴 속도 비교
+
+Linear Regression 보고서는 다음 흐름으로 정리합니다.
 
 ```text
-activation: ReLU → Sigmoid
-learning rate: 0.001 → 0.01
-dropout: 0.0 → 0.5
-initialization: default → Xavier
-capacity: channel 또는 hidden dimension 변경
+Hypothesis와 Cost Function
+→ PyTorch 구현
+→ Cost Function 시각화
+→ Gradient Descent 직접 구현
+→ PyTorch SGD와 비교
+→ Learning Rate 실험
+→ 결과 분석
 ```
 
-### 6. 분석
+### 3. 이후 학습 범위
 
-“A가 더 높았다”에서 끝내지 않고 다음에 답합니다.
+- Logistic Regression
+- Softmax Classification
+- Train/Test와 Normalization
+- XOR와 Backpropagation
+- ReLU, Initialization, Dropout
+- CNN 구현 및 비교 실험
+- RNN 개념 확인
 
-- 학습 곡선은 어떻게 달라졌는가?
-- train-test gap은 어떻게 달라졌는가?
-- 수업의 어떤 개념으로 차이를 설명할 수 있는가?
-- 같은 결론을 내리려면 반복 실험이나 추가 통제가 필요한가?
+CNN부터는 모델 구조, Tensor shape, train/test loss와 accuracy, 변경 실험 결과를
+더 자세히 기록합니다.
 
-## 파일명
-
-원본과 대응 관계가 보이도록 번호를 유지합니다.
+## 디렉터리
 
 ```text
-tensorflow_original/lab-02-1-linear_regression.py
-pytorch/lab-02-1-linear_regression.py
+.
+├── tensorflow_original/
+│   └── TensorFlow 원본의 작업용 복사본
+└── pytorch/
+    └── 직접 작성하는 PyTorch 구현
 ```
 
-PyTorch 파일의 TODO는 직접 채웁니다. 명시적으로 참고 구현을 요청하기 전에는
-완성 코드로 교체하지 않습니다.
+- `tensorflow_original/`: 원본의 수식과 데이터 흐름을 분석하고 주석을 작성합니다.
+- `pytorch/`: 원본을 이해한 뒤 같은 Lab 번호로 직접 구현합니다.
 
-# Ra-Task
+## 현재 파일
+
+| 파일 | 내용 | 상태 |
+|---|---|---|
+| `tensorflow_original/lab-02-1-linear_regression.py` | TensorFlow Linear Regression 원본 | 참고용 |
+| `pytorch/lab-02-1-linear_regression.py` | PyTorch Linear Regression | 구현 및 학습 가능 |
+| `pytorch/lab-03_minimizing_cost.py` | Cost/Gradient/SGD/LR 비교 | 직접 구현할 TODO |
+
+## 실행
+
+저장소 루트에서 실행합니다.
+
+```bash
+python pytorch/lab-02-1-linear_regression.py
+```
+
+현재 확인한 학습 환경에서는 다음 인터프리터를 사용합니다.
+
+```bash
+/opt/homebrew/anaconda3/bin/python pytorch/lab-02-1-linear_regression.py
+```
+
+## 실험 원칙
+
+- 원본과 직접 구현한 코드를 구분합니다.
+- 한 번에 전체 Lab을 완성하지 않고 순서대로 진행합니다.
+- 비교 실험에서는 한 변수만 변경합니다.
+- learning rate를 비교할 때 초기값, 데이터, epoch, optimizer를 동일하게 유지합니다.
+- 실행하지 않은 결과나 설명하지 못하는 결과는 보고서에 사용하지 않습니다.
+- 최종 정확도뿐 아니라 loss curve, Tensor shape, 파라미터 수와 실패 결과도 기록합니다.
+
+## 출처
+
+- [hunkim/DeepLearningZeroToAll](https://github.com/hunkim/DeepLearningZeroToAll)
+- 모두를 위한 딥러닝 시즌 1·2
