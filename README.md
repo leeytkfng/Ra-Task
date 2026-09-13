@@ -84,6 +84,9 @@ CNN부터는 모델 구조, Tensor shape, train/test loss와 accuracy, 변경 �
 | `tensorflow_original/lab-02-1-linear_regression.py` | TensorFlow Linear Regression 원본 | 참고용 |
 | `pytorch/lab-02-1-linear_regression.py` | PyTorch Linear Regression | 구현 및 학습 가능 |
 | `pytorch/lab-03_minimizing_cost.py` | Cost/Gradient/SGD/LR 비교 | 직접 구현할 TODO |
+| `pytorch/lab-04_multivariable_linear_regression.py` | 행렬곱 기반 다변수 선형회귀 | 직접 구현 중 |
+| `pytorch/lab-04-1_multivariable_linear_regression_high_level.py` | `nn.Linear` 기반 다변수 선형회귀 | 직접 구현할 TODO |
+| `pytorch/lab-04-2_file_input_linear_regression.py` | CSV 파일 입력 기반 다변수 선형회귀 | 직접 구현할 TODO |
 
 ## 실행
 
@@ -107,6 +110,7 @@ python pytorch/lab-02-1-linear_regression.py
 - learning rate를 비교할 때 초기값, 데이터, epoch, optimizer를 동일하게 유지합니다.
 - 실행하지 않은 결과나 설명하지 못하는 결과는 보고서에 사용하지 않습니다.
 - 최종 정확도뿐 아니라 loss curve, Tensor shape, 파라미터 수와 실패 결과도 기록합니다.
+- 새 실습 파일 맨 아래에는 저장소 루트로 이동하는 `cd` 명령과 실행 명령을 주석으로 적습니다.
 
 ## 출처
 

@@ -33,3 +33,8 @@ for epoch in range(nb_epochs + 1):
         print('Epoch {:4d}/{} W: {:.3f}, b: {:.3f} Cost: {:.6f}'.format(
             epoch, nb_epochs, W.item(), b.item(), cost.item()
         ))
+
+
+# 실행:
+# cd /Users/iyongsu/연습공간/Lab_task/practice
+# /opt/homebrew/anaconda3/bin/python pytorch/lab-02-1-linear_regression.py
