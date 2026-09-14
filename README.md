@@ -87,6 +87,7 @@ CNN부터는 모델 구조, Tensor shape, train/test loss와 accuracy, 변경 �
 | `pytorch/lab-04_multivariable_linear_regression.py` | 행렬곱 기반 다변수 선형회귀 | 직접 구현 중 |
 | `pytorch/lab-04-1_multivariable_linear_regression_high_level.py` | `nn.Linear` 기반 다변수 선형회귀 | 직접 구현할 TODO |
 | `pytorch/lab-04-2_file_input_linear_regression.py` | CSV 파일 입력 기반 다변수 선형회귀 | 직접 구현할 TODO |
+| `pytorch/lab-05-1_logistic_regression.py` | Sigmoid와 BCE 기반 이진분류 | 직접 구현할 TODO |
 
 ## 실행
 

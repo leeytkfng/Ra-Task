@@ -9,7 +9,7 @@ torch.manual_seed(1)
 # TODO 1: np.loadtxt()로 CSV 파일을 불러오세요.
 # 구분자는 쉼표이고 dtype은 np.float32입니다.
 
-data_path = Path(__file__).with_name('data-01-test-score.csv')\
+data_path = Path(__file__).with_name('data-01-test-score.csv')
 
 xy = np.loadtxt(data_path, delimiter=',' , dtype=np.float32)
 
@@ -52,18 +52,6 @@ for epoch in range(nb_epochs + 1):
     print('Epoch {:4d}/{} Cost: {:.6f}'.format(
         epoch, nb_epochs, cost.item()
     ))
-
-
-
-# TODO 3: 마지막 열을 y_data에 저장하되 (N, 1) 형태를 유지하세요.
-
-# TODO 4: NumPy 배열을 torch Tensor로 변환하세요.
-
-# TODO 5: 데이터와 Tensor shape가 올바른지 출력해서 확인하세요.
-
-# TODO 6: nn.Linear, MSELoss, SGD를 사용해 모델을 학습하세요.
-
-# TODO 7: 학습한 모델에 새로운 성적 데이터를 넣어 예측하세요.
 
 
 # 실행:
