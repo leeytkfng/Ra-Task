@@ -57,4 +57,4 @@ for epoch in range(nb_epochs+1):
         epoch, nb_epochs, cost.item()
     ))
 
-# 실행:
+# 실행:  

@@ -9,7 +9,8 @@ torch.manual_seed(1)
 # TODO 1: np.loadtxt()로 CSV 파일을 불러오세요.
 # 구분자는 쉼표이고 dtype은 np.float32입니다.
 
-data_path = Path(__file__).with_name('data-01-test-score.csv')
+data_path = Path(__file__).with_name('data-01-test-score.csv')\
+
 xy = np.loadtxt(data_path, delimiter=',' , dtype=np.float32)
 
 x_data = xy[:, 0:-1]
