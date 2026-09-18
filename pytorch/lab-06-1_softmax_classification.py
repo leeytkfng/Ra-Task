@@ -50,31 +50,16 @@ y_one_hot.scatter_(1, y.unsqueeze(1), 1)
 cost = (y_one_hot * -torch.log(hypothesis)).sum(dim=1).mean()
 print(cost)
 
-# Low level
+# 저수준 
 torch.log(F.softmax(z, dim=1))
 
-# High level
+# 고수준
 F.log_softmax(z, dim=1)
 
-# Low level
+# 저수준 구현
 (y_one_hot * -torch.log(F.softmax(z, dim=1))).sum(dim=1).mean()
 
-# High level
+# 고수준 구현
 F.nll_loss(F.log_softmax(z, dim=1), y)
 
-# TODO 1: 입력 특성 4개와 클래스 3개에 맞는 W와 b를 만드세요.
-
-# TODO 2: logits = XW+b를 계산하고 dim=1 방향으로 softmax를 적용하세요.
-
-# TODO 3: one-hot label을 이용해 Cross Entropy를 직접 계산하세요.
-
-# TODO 4: SGD optimizer를 만들고 learning rate를 0.1로 설정하세요.
-
-# TODO 5: 2001번 학습하는 반복문을 작성하세요.
-
-# TODO 6: 새로운 입력의 클래스별 확률과 argmax 예측 클래스를 출력하세요.
-
-
-# 실행:
-# cd /Users/iyongsu/연습공간/Lab_task/practice
-# /opt/homebrew/anaconda3/bin/python pytorch/lab-06-1_softmax_classification.py
+F.cross_entropy(z,y)
