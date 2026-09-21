@@ -90,6 +90,8 @@ CNN부터는 모델 구조, Tensor shape, train/test loss와 accuracy, 변경 �
 | `pytorch/lab-05-1_logistic_regression.py` | Sigmoid와 BCE 기반 이진분류 | 직접 구현할 TODO |
 | `pytorch/lab-06-1_softmax_classification.py` | Softmax와 Cross Entropy 기반 다중분류 | 직접 구현할 TODO |
 | `pytorch/lab-06-2_fancy_softmax_classification.py` | Zoo 데이터와 `CrossEntropyLoss` 기반 다중분류 | 직접 구현할 TODO |
+| `pytorch/lab-07-1_tips.py` | Train/Test, Learning Rate, 정규화 실험 | 직접 구현할 TODO |
+| `pytorch/lab-07-2_mnist.py` | DataLoader 기반 MNIST Softmax 분류 | 직접 구현할 TODO |
 
 ## 실행
 
