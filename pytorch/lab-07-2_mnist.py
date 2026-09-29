@@ -1,31 +1,90 @@
 import torch
-import torch.nn as nn
-import torch.optim as optim
+import torchvision.datasets as dsets
+import torchvision.transforms as transforms
+import matplotlib.pyplot as plt
+import random
 
+if torch.cuda.is_available():
+    device = 'cuda'
+elif torch.backends.mps.is_available():
+    device = 'mps'
+else:
+    device = 'cpu'
 
+# for reproducibility
+random.seed(777)
 torch.manual_seed(777)
+if device == 'cuda':
+    torch.cuda.manual_seed_all(777)
 
-num_classes = 10
-batch_size = 100
-num_epochs = 15
+# parametaers
+training_epochs = 15
+batch_size = 100    
 
-# TODO 1: torchvision의 MNIST train/test dataset을 준비하세요.
-# 이미지를 Tensor로 변환하는 transform을 설정하세요.
+# MNIST Dataset
+mnist_train = dsets.MNIST(root='MNIST_data/',
+                          train = True,
+                          transform = transforms.ToTensor(),
+                          download = True)
 
-# TODO 2: train/test DataLoader를 만드세요.
-# train loader만 shuffle=True로 설정하세요.
+mnist_test = dsets.MNIST(root='MNIST_data/',
+                         train=False,
+                         transform=transforms.ToTensor(),
+                         download=True)
 
-# TODO 3: 28x28 이미지를 784차원으로 펼쳐 10개 logits를 출력하는 모델을 만드세요.
+# dataset loader 
+data_loader = torch.utils.data.DataLoader(dataset=mnist_train,
+                                          batch_size=batch_size,
+                                          shuffle=True,
+                                          drop_last=True)
 
-# TODO 4: CrossEntropyLoss와 optimizer를 준비하세요.
+# MNIST data image of shape 28 * 28 = 784
+linear = torch.nn.Linear(784, 10 , bias =True).to(device)
 
-# TODO 5: 미니배치 학습 루프를 작성하고 epoch별 평균 loss를 출력하세요.
+# define cost/loss & optimizer
+criterion = torch.nn.CrossEntropyLoss().to(device)
+optimizer = torch.optim.SGD(linear.parameters(), lr =0.1)
 
-# TODO 6: model.eval()과 torch.no_grad()를 사용해 test accuracy를 계산하세요.
+for epoch in range(training_epochs):
+    avg_cost = 0 
+    total_batch = len(data_loader)
 
-# TODO 7: 테스트 이미지 하나의 실제 label과 예측 결과를 확인하세요.
+    for X,Y in data_loader:
+        # reshape input image into [batch_size by 784]
+        # label is not one-hot encoded
+        X = X.view(-1, 28 * 28).to(device)
+        Y = Y.to(device)
 
+        optimizer.zero_grad()
+        hypothesis = linear(X)
+        cost = criterion(hypothesis, Y)
+        cost.backward()
+        optimizer.step()
 
-# 실행:
-# cd /Users/iyongsu/연습공간/Lab_task/practice
-# /opt/homebrew/anaconda3/bin/python pytorch/lab-07-2_mnist.py
+        avg_cost += cost.item() / total_batch
+
+    print('Epoch:', '%04d' % (epoch + 1 ), 'cost =' , '{:.9f}'.format(avg_cost))
+
+print('Learning finished')
+
+# Test the model using test sets
+with torch.no_grad():
+    X_test = mnist_test.test_data.view(-1, 28 * 28).float().to(device)
+    Y_test = mnist_test.test_labels.to(device)
+
+    prediction = linear(X_test)
+    correct_prediction = torch.argmax(prediction, 1) == Y_test
+    accuracy = correct_prediction.float().mean()
+    print('Accuracy :' , accuracy.item())
+
+    # Get one and predict
+    r= random.randint(0, len(mnist_test) - 1 )
+    X_single_data = mnist_test.test_data[r:r +1 ].view(-1, 28*28).float().to(device)
+    Y_single_data = mnist_test.test_labels[r:r + 1].to(device)
+
+    print('Label:' , Y_single_data.item())
+    single_prediction = linear(X_single_data)
+    print('Prediction:' , torch.argmax(single_prediction,1).item())
+
+    plt.imshow(mnist_test.test_data[r:r + 1].view(28,28), cmap='Grays', interpolation = 'nearest' )
+    plt.show()
